@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/unit1"
+            android:title="Unit 1"
+            android:icon="@drawable/ic_description_black_24dp"/>
+        <item
+            android:id="@+id/unit2"
+            android:title="Unit 2"
+            android:icon="@drawable/ic_description_black_24dp"/>
+        <item
+            android:id="@+id/unit3"
+            android:title="Unit 3"
+            android:icon="@drawable/ic_description_black_24dp"/>
+        <item
+            android:id="@+id/unit4"
+            android:title="Unit 4"
+            android:icon="@drawable/ic_description_black_24dp"/>
+        <item
+            android:id="@+id/unit5"
+            android:title="Unit 5"
+            android:icon="@drawable/ic_description_black_24dp"/>
+        <item
+            android:id="@+id/unit6"
+            android:title="Unit 6"
+            android:icon="@drawable/ic_description_black_24dp"/>
+    </group>
+
+
+</menu>
