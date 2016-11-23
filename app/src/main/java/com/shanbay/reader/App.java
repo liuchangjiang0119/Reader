@@ -60,10 +60,9 @@ public class App extends Application {
         }
 
         QueryBuilder<Lesson> queryBuilder = getLessonSession().getLessonDao().queryBuilder();
-        Log.d("----------",queryBuilder.build().list().size()+"");
 
-    //        QueryBuilder<Word> queryBuilder = mSession1.getWordDao().queryBuilder();
-    //        Log.d("---------------",queryBuilder.where(WordDao.Properties.Id.eq(1)).build().list().toString());
+
+
 
 
     }

@@ -13,6 +13,7 @@ public class LessonContract {
     public interface Presenter{
         void loadLesson(int unit);
         void loadWord(int level);
+        void loadAllWords();
 
     }
 
@@ -21,6 +22,9 @@ public class LessonContract {
     }
 
     public interface WordView {
-        void showWord();
+        void showWord(List<String> list);
+        void getAllword(List<String> list);
     }
+
+
 }

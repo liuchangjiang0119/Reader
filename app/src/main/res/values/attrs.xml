@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="unit_view">
+        <attr name="unit_color" format="color"/>
+        <attr name="unit_textSize" format="dimension"/>
+        <attr name="unit_textColor" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="lesson_view">
+        <attr name="lesson_color" format="color"/>
+        <attr name="lesson_textSize" format="dimension"/>
+        <attr name="lesson_textColor" format="color"/>
+        <attr name="lesson_width" format="dimension"/>
+        <attr name="lesson_height" format="dimension"/>
+    </declare-styleable>
+</resources>

@@ -27,7 +27,7 @@ public class LessonPresenter implements LessonContract.Presenter {
     private QueryBuilder<Lesson> mBuilder;
     private List<Lesson> mLessonList;
     private List<String> words;
-    private List<Word> mWordLsit;
+    private List<Word> mWordList;
     private LessonContract.LessonView mLessonView;
     private LessonContract.WordView mWordView;
 
@@ -69,6 +69,7 @@ public class LessonPresenter implements LessonContract.Presenter {
 
 
         }
+
         mLessonView.showLesson(mLessonList);
 
     }
@@ -78,27 +79,45 @@ public class LessonPresenter implements LessonContract.Presenter {
         mWordDao = App.getInstance().getWordSession().getWordDao();
         QueryBuilder<Word> builder = mWordDao.queryBuilder();
         words = new ArrayList<>();
+
         switch (level){
             case 0:
-                mWordLsit = builder.where(WordDao.Properties.Level.eq(""+level)).build().list();
+                mWordList = builder.where(WordDao.Properties.Level.eq(""+level)).build().list();
                 break;
             case 1:
-                mWordLsit = builder.where(WordDao.Properties.Level.between("0","1")).build().list();
+                mWordList = builder.where(WordDao.Properties.Level.between("0","1")).build().list();
                 break;
             case 2:
-                mWordLsit = builder.where(WordDao.Properties.Level.between("0","2")).build().list();
+                mWordList = builder.where(WordDao.Properties.Level.between("0","2")).build().list();
                 break;
             case 3:
-                mWordLsit = builder.where(WordDao.Properties.Level.between("0","3")).build().list();
+                mWordList = builder.where(WordDao.Properties.Level.between("0","3")).build().list();
                 break;
             case 4:
-                mWordLsit = builder.where(WordDao.Properties.Level.between("0","4")).build().list();
+                mWordList = builder.where(WordDao.Properties.Level.between("0","4")).build().list();
                 break;
             case 5:
-                mWordLsit = builder.where(WordDao.Properties.Level.between("0","5")).build().list();
+                mWordList = builder.where(WordDao.Properties.Level.between("0","5")).build().list();
                 break;
         }
 
-        Log.d("-----------",mWordLsit.size()+"");
+        for (int i =0;i<mWordList.size();i++){
+            words.add(mWordList.get(i).getWord());
+        }
+
+        mWordView.showWord(words);
+
+
+    }
+    @Override
+    public void loadAllWords(){
+        mWordDao = App.getInstance().getWordSession().getWordDao();
+        words = new ArrayList<>();
+        mWordList = mWordDao.queryBuilder().build().list();
+        for (int i=0;i<mWordList.size();i++){
+            words.add(mWordList.get(i).getWord());
+        }
+        mWordView.getAllword(words);
+
     }
 }

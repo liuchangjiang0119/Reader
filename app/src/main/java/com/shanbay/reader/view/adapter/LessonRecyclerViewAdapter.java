@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 
 import com.shanbay.reader.R;
+import com.shanbay.reader.view.LessonNumView;
 
 import org.w3c.dom.ls.LSInput;
 
@@ -30,6 +31,7 @@ public class LessonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private Context mContext;
     private LayoutInflater mInflater;
     private OnItemClickListener mOnItemClickListener;
+    private int unit;
 
     public LessonRecyclerViewAdapter(Context context) {
         this.mContext = context;
@@ -37,6 +39,11 @@ public class LessonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
     public void setTitleList(List<String> list){
         mTitleList = list;
+        this.notifyDataSetChanged();
+    }
+
+    public void setUnit(int unit){
+        this.unit = unit;
         this.notifyDataSetChanged();
     }
 
@@ -54,12 +61,13 @@ public class LessonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         ((LessonViewHolder)holder).item_text.setText(mTitleList.get(position));
+        ((LessonViewHolder)holder).mLessonNumView.setLesson(unit*8+position+1);
         if (mOnItemClickListener!=null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = holder.getLayoutPosition();
-                    mOnItemClickListener.itemClick(holder.itemView,position);
+                    mOnItemClickListener.itemClick(holder.itemView,position,((LessonViewHolder) holder).mLessonNumView);
                 }
             });
         }
@@ -76,14 +84,17 @@ public class LessonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         @BindView(R.id.item_text)
         TextView item_text;
+        @BindView(R.id.lessonView)
+        LessonNumView mLessonNumView;
         public LessonViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+
         }
     }
 
     public interface OnItemClickListener{
-        void itemClick(View view ,int position);
+        void itemClick(View view ,int position,View clickView);
 
     }
 

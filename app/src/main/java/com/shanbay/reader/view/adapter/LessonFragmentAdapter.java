@@ -4,6 +4,7 @@ package com.shanbay.reader.view.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 ;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by windfall on 16-11-20.
  */
 
-public class LessonFragmentAdapter extends FragmentStatePagerAdapter {
+public class LessonFragmentAdapter extends FragmentPagerAdapter {
 
     List<Fragment> mList;
     public LessonFragmentAdapter(FragmentManager fm, List<Fragment> list) {

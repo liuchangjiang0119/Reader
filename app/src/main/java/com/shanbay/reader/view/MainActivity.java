@@ -1,6 +1,8 @@
 package com.shanbay.reader.view;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -20,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import immortalz.me.library.TransitionsHeleper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        TransitionsHeleper.getInstance().show(this,null);
 
         initViewPager();
 
@@ -75,6 +80,15 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示").setMessage("确定要退出吗？")
+                .setPositiveButton("确定",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        builder.create().show();
     }
 
     @Override

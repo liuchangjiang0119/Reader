@@ -10,10 +10,12 @@ public abstract class BaseFragment extends Fragment {
     public boolean isVisble;
     public boolean hasPrepared = false;
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (getUserVisibleHint()){
+
             isVisble = true;
             onVisible();
 
