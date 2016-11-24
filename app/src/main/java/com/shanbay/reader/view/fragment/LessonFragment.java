@@ -1,15 +1,10 @@
 package com.shanbay.reader.view.fragment;
 
-import android.animation.Animator;
-import android.app.ActivityOptions;
 import android.content.Intent;
-import android.sax.StartElementListener;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.TintContextWrapper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +14,8 @@ import com.shanbay.reader.model.Lesson;
 import com.shanbay.reader.presenter.LessonPresenter;
 import com.shanbay.reader.presenter.contract.LessonContract;
 import com.shanbay.reader.view.ContentActivity;
-import com.shanbay.reader.view.LessonNumView;
 import com.shanbay.reader.view.UnitView;
 import com.shanbay.reader.view.adapter.LessonRecyclerViewAdapter;
-
-import org.w3c.dom.ls.LSInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +42,7 @@ public class LessonFragment extends BaseFragment implements LessonContract.Lesso
     private LessonPresenter mPresenter;
     private  List<String> mTitleList;
     private List<Lesson> mLessonList;
-    private static int page;
+//    每个页面布局一样，所以只创建一个fragment
     public static LessonFragment newInstance(int position){
         LessonFragment lessonFragment = new LessonFragment();
         Bundle bundle = new Bundle();
@@ -60,14 +52,7 @@ public class LessonFragment extends BaseFragment implements LessonContract.Lesso
 
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint()){
-            page = getArguments().getInt("POSOTION");
-        }
-    }
-
+//viewpager的懒加载处理，当页面可见且view初始化完成后在加载数据，避免空指针
     @Override
     public void loadLessonList() {
 
@@ -86,19 +71,14 @@ public class LessonFragment extends BaseFragment implements LessonContract.Lesso
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Log.d("---------","onCreate");
 
     }
-
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.lesson_fragment,container,false);
-
-
         return view;
     }
 
@@ -109,12 +89,12 @@ public class LessonFragment extends BaseFragment implements LessonContract.Lesso
 
         initRecyclerView();
         hasPrepared = true;
+//        当页面可见且view初始化完成的时候再填充数据否则会空指针异常
         loadLessonList();
     }
-
+//将数据填充到RecyclerView
     @Override
     public void showLesson(List<Lesson> list) {
-//        Log.d("----------","showLesson");
         if (list!=null) {
             mLessonList = list;
 
@@ -127,26 +107,30 @@ public class LessonFragment extends BaseFragment implements LessonContract.Lesso
         mAdapter.setUnit(positon);
 
     }
-
-    void initRecyclerView(){
+//  初始化RecyclerView
+    private void initRecyclerView(){
 
         mAdapter = new LessonRecyclerViewAdapter(getContext());
         mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+//        自定义的RecyclerView的点击监听事件
         mAdapter.setOnItemClickListener(new LessonRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void itemClick(View view, int position, final View clickView) {
+            public void itemClick(View view, int position,View clickView) {
 
-                final Intent intent = new Intent(getActivity(), ContentActivity.class);
+                Intent intent = new Intent(getActivity(), ContentActivity.class);
                 intent.putExtra("content", mLessonList.get(position).getContent());
                 intent.putExtra("chinese" , mLessonList.get(position).getChinese());
                 intent.putExtra("question", mLessonList.get(position).getQuestion());
                 intent.putExtra("answer", mLessonList.get(position).getAnswer());
                 intent.putExtra("word",mLessonList.get(position).getWord());
                 intent.putExtra("lesson",mLessonList.get(position).getLesson());
+//                一个转场动画的开源框架
+
                 TransitionsHeleper.startActivity(getActivity(),intent,clickView);
+
             }
         });
 

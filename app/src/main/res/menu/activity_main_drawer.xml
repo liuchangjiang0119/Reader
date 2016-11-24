@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     >
-
-    <group android:checkableBehavior="single"
+<item
+    android:id="@+id/header"
+    android:title="@string/unit">
+    <menu android:checkableBehavior="single"
         >
         <item
             android:id="@+id/unit1"
-            android:title="Unit 1"
+            android:title="@string/unit1"
             android:icon="@drawable/ic_description_black_24dp"/>
         <item
             android:id="@+id/unit2"
-            android:title="Unit 2"
+            android:title="@string/unit2"
             android:icon="@drawable/ic_description_black_24dp"/>
         <item
             android:id="@+id/unit3"
-            android:title="Unit 3"
+            android:title="@string/unit3"
             android:icon="@drawable/ic_description_black_24dp"/>
         <item
             android:id="@+id/unit4"
-            android:title="Unit 4"
+            android:title="@string/unit4"
             android:icon="@drawable/ic_description_black_24dp"/>
         <item
             android:id="@+id/unit5"
-            android:title="Unit 5"
+            android:title="@string/unit5"
             android:icon="@drawable/ic_description_black_24dp"/>
         <item
             android:id="@+id/unit6"
-            android:title="Unit 6"
+            android:title="@string/unit6"
             android:icon="@drawable/ic_description_black_24dp"/>
-    </group>
+    </menu>
 
-
+</item>
 </menu>

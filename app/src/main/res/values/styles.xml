@@ -24,4 +24,8 @@
         <item name="windowNoTitle">true</item>
 
     </style>
+    <style name="popup_anim">
+        <item name="android:windowEnterAnimation">@anim/popup_anim_up</item>
+        <item name="android:windowExitAnimation">@anim/popup_anim_down</item>
+    </style>
 </resources>

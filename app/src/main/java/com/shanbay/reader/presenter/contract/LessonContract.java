@@ -10,10 +10,10 @@ import java.util.List;
  */
 
 public class LessonContract {
+//    MVP中的契约类，为V和P提供接口
     public interface Presenter{
         void loadLesson(int unit);
         void loadWord(int level);
-        void loadAllWords();
 
     }
 
@@ -23,7 +23,7 @@ public class LessonContract {
 
     public interface WordView {
         void showWord(List<String> list);
-        void getAllword(List<String> list);
+
     }
 
 

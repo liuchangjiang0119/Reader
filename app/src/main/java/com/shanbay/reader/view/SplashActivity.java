@@ -2,45 +2,46 @@ package com.shanbay.reader.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 
 import com.shanbay.reader.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import immortalz.me.library.TransitionsHeleper;
 
 public class SplashActivity extends Activity {
 
 
-    private Handler mHandler;
-    private Runnable runnable;
-
-    @BindView(R.id.activity_splash)
-    View mView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        ButterKnife.bind(this);
+        final View view = View.inflate(this,R.layout.activity_splash,null);
+        setContentView(view);
 
-        mHandler = new Handler();
-        final Intent intent = new Intent(this,MainActivity.class);
-        runnable = new Runnable() {
+//      启动页动画，简单的缩放页面
+        Animation animation = new ScaleAnimation(1.0f,1.2f,1.0f,1.2f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        animation.setDuration(3000);
+//      画面是否停留在缩放之后的画面
+        animation.setFillAfter(true);
+        view.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void run() {
-                TransitionsHeleper.startActivity(SplashActivity.this,intent,mView);
+            public void onAnimationStart(Animation animation) {
+
+            }
+//      缩放结束后打开Activity
+            @Override
+            public void onAnimationEnd(Animation animation) {
+               Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+                startActivity(intent);
                 finish();
             }
-        };
 
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
-        mHandler.postDelayed(runnable,3000);
+            }
+        });
 
 
 

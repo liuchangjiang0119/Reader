@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">Reader</string>
+    <string name="app_name">NCE4</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="title_activity_content">ContentActivity</string>
     <string name="word_hightlight">单词高亮</string>
     <string name="cancle_hightlight">取消高亮</string>
@@ -13,6 +12,19 @@
     <string name="cancle">UNDO</string>
     <string name="a_Reader">A Reader</string>
     <string name="text_for">for</string>
-    <string name="nec4">NEC4</string>
-    <string name="click">STEP IN</string>
+    <string name="nec4">NCE4</string>
+
+    <string name="text_by">by</string>
+    <string name="my_name">WINDFALL</string>
+    <string name="question">question</string>
+    <string name="a_reader_for_nce4">A Reader for NCE4</string>
+    <string name="by_windfall">by WINDFALL</string>
+    <string name="unit">Unit</string>
+    <string name="unit1">Unit 1</string>
+    <string name="unit2">Unit 2</string>
+    <string name="unit3">Unit 3</string>
+    <string name="unit4">Unit 4</string>
+    <string name="unit5">Unit 5</string>
+    <string name="unit6">Unit 6</string>
+
 </resources>

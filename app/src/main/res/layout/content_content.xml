@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.shanbay.reader.view.ContentActivity"
     tools:showIn="@layout/activity_content">
@@ -20,8 +21,8 @@
         <TextView
 
             android:id="@+id/question_text"
-            android:textSize="30sp"
-            android:text="question"
+            android:textSize="25sp"
+            android:text="@string/question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -29,12 +30,11 @@
 
 
         <TextView
+            android:textColor="@color/grey"
             android:layout_margin="16dp"
-            android:gravity="fill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:clickable="true"
+            android:textSize="15sp"
             android:id="@+id/content_text"/>
         <TextView
             android:textSize="20sp"
@@ -43,9 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             />
-
-
-
 
     </LinearLayout>
 

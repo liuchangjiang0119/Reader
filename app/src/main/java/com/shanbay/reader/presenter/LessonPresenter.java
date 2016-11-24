@@ -11,7 +11,6 @@ import com.shanbay.reader.model.Word;
 import com.shanbay.reader.presenter.contract.LessonContract;
 
 import org.greenrobot.greendao.query.QueryBuilder;
-import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +37,12 @@ public class LessonPresenter implements LessonContract.Presenter {
         mWordView = view;
 
     }
-
+//根据单元从数据库中查询课文列表
     @Override
     public void loadLesson(int unit) {
         mLessonDao = App.getInstance().getLessonSession().getLessonDao();
         mBuilder = mLessonDao.queryBuilder();
+
         switch (unit){
             case 0:
                 mLessonList = mBuilder.where(LessonDao.Properties.Id.between(0,8)).build().list();
@@ -73,7 +73,7 @@ public class LessonPresenter implements LessonContract.Presenter {
         mLessonView.showLesson(mLessonList);
 
     }
-
+//根据单词等级从数据库中查询单词
     @Override
     public void loadWord(int level) {
         mWordDao = App.getInstance().getWordSession().getWordDao();
@@ -107,17 +107,6 @@ public class LessonPresenter implements LessonContract.Presenter {
 
         mWordView.showWord(words);
 
-
     }
-    @Override
-    public void loadAllWords(){
-        mWordDao = App.getInstance().getWordSession().getWordDao();
-        words = new ArrayList<>();
-        mWordList = mWordDao.queryBuilder().build().list();
-        for (int i=0;i<mWordList.size();i++){
-            words.add(mWordList.get(i).getWord());
-        }
-        mWordView.getAllword(words);
 
-    }
 }

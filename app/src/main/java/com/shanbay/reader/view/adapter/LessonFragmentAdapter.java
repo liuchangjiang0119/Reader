@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-;
+
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class LessonFragmentAdapter extends FragmentPagerAdapter {
 
-    List<Fragment> mList;
+    private List<Fragment> mList;
     public LessonFragmentAdapter(FragmentManager fm, List<Fragment> list) {
         super(fm);
         mList = list;

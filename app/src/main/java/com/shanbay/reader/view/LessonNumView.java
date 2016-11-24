@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Printer;
 import android.view.View;
 
 import com.shanbay.reader.R;
@@ -15,7 +14,8 @@ import com.shanbay.reader.R;
 /**
  * Created by windfall on 16-11-22.
  */
-
+/**自定义View作为lesson序数
+* */
 public class LessonNumView extends View {
     private Paint mPaint,mTextPaint;
     private int lesson;
@@ -39,7 +39,7 @@ public class LessonNumView extends View {
         typedArray.recycle();
         initPaint();
     }
-    void initPaint(){
+    private void initPaint(){
         mPaint = new Paint();
         mPaint.setColor(color);
         mPaint.setAntiAlias(true);
@@ -84,6 +84,10 @@ public class LessonNumView extends View {
         int r = x - 5;
 
 
+/**文字居中的写法，文字的宽度可以确定，但高度不能确定，需要用Paint.FontMetrics来测量，
+ *  包括五个值top,bottom,descent.ascent,baseline.top和bottom指文本框的顶部和底部，
+ *  descent为文字最底端，ascent为文字最顶端，baseline为基准，向上为负，向下为正。
+ */
         Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
         float dy = -metrics.descent+(metrics.bottom-metrics.top)/2;
         float startY = y +dy;
@@ -91,7 +95,7 @@ public class LessonNumView extends View {
         canvas.drawCircle(x,y,r,mPaint);
         canvas.drawText(String.valueOf(lesson),x,startY,mTextPaint);
     }
-
+//设置lesson序号
     public void setLesson(int lesson){
         this.lesson = lesson;
         this.invalidate();

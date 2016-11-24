@@ -3,7 +3,6 @@ package com.shanbay.reader;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.shanbay.reader.dao.DaoMaster;
 import com.shanbay.reader.dao.DaoSession;
@@ -12,7 +11,6 @@ import com.shanbay.reader.dao.WordDao;
 import com.shanbay.reader.model.Lesson;
 import com.shanbay.reader.model.Word;
 
-import org.greenrobot.greendao.query.QueryBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +19,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * Created by windfall on 16-11-18.
@@ -47,6 +44,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+//        通过SharePreferences判断是否是第一次打开
         mPreferences = getSharedPreferences("opencount",MODE_PRIVATE);
         mEditor = mPreferences.edit();
         boolean isFirstOpen = mPreferences.getBoolean("FirstOpen",true);
@@ -54,19 +52,15 @@ public class App extends Application {
         initWordDateBase();
 
         if (isFirstOpen){
+//            如果是第一次打开，进行数据库的插入工作
             paserJson();
             mEditor.putBoolean("FirstOpen",false);
             mEditor.commit();
         }
-
-        QueryBuilder<Lesson> queryBuilder = getLessonSession().getLessonDao().queryBuilder();
-
-
-
-
+        mEditor.commit();
 
     }
-
+//需要分别把lesson内容和单词表内容分别导入数据库，应为比较耗时所以新建一个线程
     void paserJson() {
         new Thread(new Runnable() {
             @Override
@@ -81,7 +75,7 @@ public class App extends Application {
 
 
 
-
+//数据库（GreenDao）初始化
     void initLessonDateBase(){
         mLessonHelper = new DaoMaster.DevOpenHelper(this,"lesson",null);
         mLessonDataBase = mLessonHelper.getWritableDatabase();
@@ -95,11 +89,11 @@ public class App extends Application {
         mWordMaster = new DaoMaster(mWordDatabase);
         mWordSession = mWordMaster.newSession();
     }
-
+//从json解析数据
     void parseLessonJson(){
-        InputStreamReader inputStreamReader = new InputStreamReader(getResources().openRawResource(R.raw.nec4));
+        InputStreamReader inputStreamReader = new InputStreamReader(getResources().openRawResource(R.raw.nce4));
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        String line = "";
+        String line ;
         StringBuilder builder = new StringBuilder();
         try {
 
@@ -135,7 +129,7 @@ public class App extends Application {
         InputStreamReader inputStreamReader = new InputStreamReader(getResources().openRawResource(R.raw.nce4_words));
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         StringBuilder builder = new StringBuilder();
-        String line = "";
+        String line ;
         try {
             while ((line = bufferedReader.readLine())!=null){
                 builder.append(line);
@@ -175,11 +169,4 @@ public class App extends Application {
         return mWordSession;
     }
 
-    public SQLiteDatabase getWordDatabase() {
-        return mWordDatabase;
-    }
-
-    public SQLiteDatabase getLessonDataBase() {
-        return mLessonDataBase;
-    }
 }

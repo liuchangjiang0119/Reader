@@ -3,6 +3,7 @@ package com.shanbay.reader.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.shanbay.reader.R;
 import com.shanbay.reader.view.adapter.LessonFragmentAdapter;
 import com.shanbay.reader.view.fragment.LessonFragment;
@@ -22,7 +25,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import immortalz.me.library.TransitionsHeleper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,16 +45,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
-        TransitionsHeleper.getInstance().show(this,null);
-
+//初始化ViewPager
         initViewPager();
-
-
-
-
-
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -61,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    void initViewPager(){
+    private void initViewPager(){
 
         mFragmentList = new ArrayList<>();
         for (int i = 0;i<6;i++){
@@ -69,26 +63,53 @@ public class MainActivity extends AppCompatActivity
         }
         mAdapter = new LessonFragmentAdapter(getSupportFragmentManager(),mFragmentList);
         mViewPager.setAdapter(mAdapter);
+        mViewPager.setPageTransformer(true, new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(View page, float position) {
+                int pageWidth = page.getWidth();
+                if (position < -1) {
+                    page.setAlpha(0);
+                } else if (position <= 0) {
+
+                    page.setAlpha(1);
+                    page.setTranslationX(0);
+                    page.setScaleX(1);
+                    page.setScaleY(1);
+                } else if (position <= 1) {
+                    page.setAlpha(1 - position);
+                    page.setTranslationX(pageWidth * -position);
+                    float scaleFactor = 0.75f + (1 - 0.75f)
+                            * (1 - Math.abs(position));
+                    page.setScaleX(scaleFactor);
+                    page.setScaleY(scaleFactor);
+                } else {
+                    page.setAlpha(0);
+
+                }
+            }
+        });
         mViewPager.setCurrentItem(0);
 
     }
+//    点击返回按钮弹出dialog
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        }else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("提示").setMessage("确定要退出吗？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+
+            builder.create().show();
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示").setMessage("确定要退出吗？")
-                .setPositiveButton("确定",new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-        builder.create().show();
+
     }
 
     @Override
@@ -100,23 +121,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
-
+//通过NavigationView进行Unit选择
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+    @NonNull
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
         switch (id){
             case R.id.unit1:

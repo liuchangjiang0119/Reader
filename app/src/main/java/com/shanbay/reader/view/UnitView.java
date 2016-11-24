@@ -14,7 +14,7 @@ import com.shanbay.reader.R;
 /**
  * Created by windfall on 16-11-22.
  */
-
+//自定义view为unit序号
 public class UnitView extends View{
     private Paint mPaint,mTextPaint ;
     private int unit;
@@ -32,6 +32,7 @@ public class UnitView extends View{
         textSize = typedArray.getDimensionPixelSize(R.styleable.unit_view_unit_textSize,100);
         textColor = typedArray.getColor(R.styleable.unit_view_unit_textColor,Color.WHITE);
         typedArray.recycle();
+        initPaint();
     }
 
     @Override
@@ -40,12 +41,7 @@ public class UnitView extends View{
 
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        int x = getWidth();
-        int y = getHeight();
-
+    private void initPaint(){
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(color);
@@ -55,6 +51,15 @@ public class UnitView extends View{
         mTextPaint.setColor(textColor);
 
         mTextPaint.setTextSize(textSize);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        int x = getWidth();
+        int y = getHeight();
+
+
 
 
         canvas.drawRect(0,0,x,y,mPaint);

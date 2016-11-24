@@ -2,18 +2,14 @@ package com.shanbay.reader.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 
 import com.shanbay.reader.R;
 import com.shanbay.reader.view.LessonNumView;
-
-import org.w3c.dom.ls.LSInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +26,7 @@ public class LessonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private List<String> mTitleList = new ArrayList<>();
     private Context mContext;
     private LayoutInflater mInflater;
+//    定义一个监听事件
     private OnItemClickListener mOnItemClickListener;
     private int unit;
 
@@ -62,6 +59,7 @@ public class LessonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         ((LessonViewHolder)holder).item_text.setText(mTitleList.get(position));
         ((LessonViewHolder)holder).mLessonNumView.setLesson(unit*8+position+1);
+//        自定义监听事件的具体实现
         if (mOnItemClickListener!=null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
