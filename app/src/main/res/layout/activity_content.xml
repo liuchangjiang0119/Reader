@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             fab:fabSize="mini"
             fab:fab_title="@string/show_answer"
+
             fab:fab_icon="@drawable/ic_answer_24dp"
             />
         <com.getbase.floatingactionbutton.FloatingActionButton

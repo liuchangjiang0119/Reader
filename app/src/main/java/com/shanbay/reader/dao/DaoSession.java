@@ -8,8 +8,8 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
-import com.shanbay.reader.model.Lesson;
-import com.shanbay.reader.model.Word;
+import com.shanbay.reader.model.bean.Lesson;
+import com.shanbay.reader.model.bean.Word;
 
 import com.shanbay.reader.dao.LessonDao;
 import com.shanbay.reader.dao.WordDao;

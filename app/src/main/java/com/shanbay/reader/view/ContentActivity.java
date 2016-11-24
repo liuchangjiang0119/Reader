@@ -1,7 +1,8 @@
 package com.shanbay.reader.view;
 
+
 import android.content.Intent;
-import android.graphics.Color;
+
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import com.shanbay.reader.R;
 import com.shanbay.reader.presenter.LessonPresenter;
 import com.shanbay.reader.presenter.contract.LessonContract;
 
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,6 +49,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import immortalz.me.library.TransitionsHeleper;
+
 
 public class ContentActivity extends AppCompatActivity implements View.OnClickListener,LessonContract.WordView{
 
@@ -86,6 +90,9 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     private List<String> allWordsList;
     private List<String> wordList;
     private Thread allWordThread;
+    private String wordInfo;
+    private TextView wordInfoTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +131,9 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+
+
+
     }
     Runnable mRunnable = new Runnable() {
         @Override
@@ -144,7 +154,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
 
                     content_text.setText(spannableCopy);
                     content_text.setMovementMethod(LinkMovementMethod.getInstance());
-                    content_text.setHighlightColor(Color.RED);
+                    content_text.setHighlightColor(ContextCompat.getColor(ContentActivity.this,R.color.colorPrimary));
                     break;
                 default:
                     break;
@@ -170,7 +180,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                 allWordsList.add(list.get(i));
             }
         }
-        Log.d("-------------",allWordsList.size()+"");
+
 
     }
 //给每一个单词设置clickablespan，做到单词点击高亮
@@ -207,8 +217,10 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         return new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                TextView textView = (TextView)view;
+                TextView textView = (TextView) view;
                 String s = textView.getText().subSequence(textView.getSelectionStart(),textView.getSelectionEnd()).toString();
+                mPresenter.getWordInfo(s);
+                showWordPopupInfo();
 
             }
 
@@ -321,29 +333,72 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         }
      }
 
-//弹出选择单词等级菜单
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mNewWordsPopupWindow!=null&&mNewWordsPopupWindow.isShowing()){
+            mNewWordsPopupWindow.dismiss();
+        }
+        if (mWordLevelPopupWindow!=null&&mWordLevelPopupWindow.isShowing()){
+            mWordLevelPopupWindow.dismiss();
+        }
+    }
+
+    @Override
+    public void showWordInfo(Map<String, String> map) {
+        if (map!=null){
+            wordInfo = map.get("chinese");
+            wordInfoTextView.setText(wordInfo);
+
+        }else {
+            Snackbar.make(mFloatingActionsMenu,R.string.net_error,Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void showError() {
+        Snackbar.make(mFloatingActionsMenu,R.string.net_error,Snackbar.LENGTH_LONG).show();
+    }
+
+    //    显示每篇文章中的new word and expression
+    private void showNewWordsPopupwindow(){
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_content,null,false);
+        View view = LayoutInflater.from(this).inflate(R.layout.popup_newwords,null,false);
+        mNewWordsPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        mNewWordsPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        mNewWordsPopupWindow.setAnimationStyle(R.style.popup_anim);
+        mNewWordsPopupWindow.setContentView(view);
+        mNewWordsPopupWindow.setOutsideTouchable(true);
+        mNewWordsPopupWindow.showAtLocation(rootView,Gravity.BOTTOM,0,0);
+        TextView new_words = (TextView)view.findViewById(R.id.new_words);
+        new_words.setText(word);
+
+
+    }
+    //弹出选择单词等级菜单
     private void showWordLevelPopupWindow(){
-        View root_view = LayoutInflater.from(this).inflate(R.layout.activity_content,null,false);
-        View popup_view = LayoutInflater.from(this).inflate(R.layout.popup_wordlevel,null,false);
-        mWordLevelPopupWindow = new PopupWindow(popup_view, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        mWordLevelPopupWindow.setContentView(popup_view);
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_content,null,false);
+        View popupView = LayoutInflater.from(this).inflate(R.layout.popup_wordlevel,null,false);
+        mWordLevelPopupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        mWordLevelPopupWindow.setContentView(popupView);
         mWordLevelPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mWordLevelPopupWindow.setAnimationStyle(R.style.popup_anim);
         mWordLevelPopupWindow.setFocusable(true);
         mWordLevelPopupWindow.setOutsideTouchable(true);
-        mWordLevelPopupWindow.showAtLocation(root_view, Gravity.BOTTOM,0,0);
-        mSeekBar = (SeekBar)popup_view.findViewById(R.id.seekBar);
+        mWordLevelPopupWindow.showAtLocation(rootView, Gravity.BOTTOM,0,0);
+        mSeekBar = (SeekBar)popupView.findViewById(R.id.seekBar);
         mSeekBar.setProgress(progress);
 
-        final TextView level_text = (TextView) popup_view.findViewById(R.id.text_level);
+        final TextView level_text = (TextView) popupView.findViewById(R.id.text_level);
         level_text.setText(String.valueOf(progress));
-        final TextView content_popup = (TextView) root_view.findViewById(R.id.content_text);
+        final TextView content_popup = (TextView) rootView.findViewById(R.id.content_text);
 //        seekbar用来选择单词等级
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar bar, int i, boolean b) {
                 progress = i;
-                content_popup.setText(content);
+                content_popup.setText(spannableCopy);
                 level_text.setText(String.valueOf(i));
                 mPresenter.loadWord(i);
 
@@ -362,30 +417,20 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         });
 
     }
-//    显示每篇文章中的new word and expression
-    private void showNewWordsPopupwindow(){
-        View root_view = LayoutInflater.from(this).inflate(R.layout.activity_content,null,false);
-        View view = LayoutInflater.from(this).inflate(R.layout.popup_newwords,null,false);
-        mNewWordsPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
-        mNewWordsPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        mNewWordsPopupWindow.setAnimationStyle(R.style.popup_anim);
-        mNewWordsPopupWindow.setContentView(view);
-        mNewWordsPopupWindow.setOutsideTouchable(true);
-        mNewWordsPopupWindow.showAtLocation(root_view,Gravity.BOTTOM,0,0);
-        TextView new_words = (TextView)view.findViewById(R.id.new_words);
-        new_words.setText(word);
 
 
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mNewWordsPopupWindow!=null&&mNewWordsPopupWindow.isShowing()){
-            mNewWordsPopupWindow.dismiss();
-        }
-        if (mWordLevelPopupWindow!=null&&mWordLevelPopupWindow.isShowing()){
-            mWordLevelPopupWindow.dismiss();
-        }
+    //    显示单词翻译
+    private void showWordPopupInfo(){
+        View root_view = LayoutInflater.from(this).inflate(R.layout.activity_content,null);
+        View word_view = LayoutInflater.from(this).inflate(R.layout.popup_word_info,null);
+        PopupWindow popupWindow = new PopupWindow(word_view,ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        popupWindow.setContentView(word_view);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+//        popupWindow.setAnimationStyle(R.style.popup_anim);
+        popupWindow.showAtLocation(root_view,Gravity.BOTTOM,0,0);
+        wordInfoTextView = (TextView)word_view.findViewById(R.id.word_info);
+        wordInfoTextView.setText(R.string.loading);
     }
 }

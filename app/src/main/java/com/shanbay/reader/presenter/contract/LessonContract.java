@@ -1,9 +1,10 @@
 package com.shanbay.reader.presenter.contract;
 
 
-import com.shanbay.reader.model.Lesson;
+import com.shanbay.reader.model.bean.Lesson;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by windfall on 16-11-20.
@@ -14,6 +15,7 @@ public class LessonContract {
     public interface Presenter{
         void loadLesson(int unit);
         void loadWord(int level);
+        void getWordInfo(String word);
 
     }
 
@@ -23,6 +25,8 @@ public class LessonContract {
 
     public interface WordView {
         void showWord(List<String> list);
+        void showWordInfo(Map<String,String> map);
+        void showError();
 
     }
 

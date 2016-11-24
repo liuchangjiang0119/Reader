@@ -50,7 +50,7 @@
     <TextView
         android:textColor="@color/white"
 
-        android:layout_marginBottom="21dp"
+        android:layout_marginBottom="40dp"
         android:textSize="20sp"
         android:layout_gravity="center"
         android:text="@string/my_name"
@@ -63,15 +63,15 @@
     <TextView
         android:textColor="@color/white"
 
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="21dp"
         android:textSize="15sp"
         android:layout_gravity="center"
         android:text="@string/text_by"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/textView3"
         android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView3"/>
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

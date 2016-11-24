@@ -8,8 +8,8 @@ import com.shanbay.reader.dao.DaoMaster;
 import com.shanbay.reader.dao.DaoSession;
 import com.shanbay.reader.dao.LessonDao;
 import com.shanbay.reader.dao.WordDao;
-import com.shanbay.reader.model.Lesson;
-import com.shanbay.reader.model.Word;
+import com.shanbay.reader.model.bean.Lesson;
+import com.shanbay.reader.model.bean.Word;
 
 import org.json.JSONArray;
 import org.json.JSONException;

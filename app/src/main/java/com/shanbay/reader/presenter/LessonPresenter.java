@@ -6,14 +6,26 @@ import com.shanbay.reader.App;
 
 import com.shanbay.reader.dao.LessonDao;
 import com.shanbay.reader.dao.WordDao;
-import com.shanbay.reader.model.Lesson;
-import com.shanbay.reader.model.Word;
+import com.shanbay.reader.model.bean.Lesson;
+import com.shanbay.reader.model.bean.Word;
+import com.shanbay.reader.model.bean.WordInfo;
+import com.shanbay.reader.model.http.ShanBayApi;
 import com.shanbay.reader.presenter.contract.LessonContract;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by windfall on 16-11-20.
@@ -29,7 +41,9 @@ public class LessonPresenter implements LessonContract.Presenter {
     private List<Word> mWordList;
     private LessonContract.LessonView mLessonView;
     private LessonContract.WordView mWordView;
+    private Map<String,String> map;
 
+    private final String BASE_URL = "https://api.shanbay.com/bdc/";
     public LessonPresenter(LessonContract.LessonView view) {
         mLessonView = view;
     }
@@ -109,4 +123,36 @@ public class LessonPresenter implements LessonContract.Presenter {
 
     }
 
+    @Override
+    public void getWordInfo(String word) {
+        map = new HashMap<>();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ShanBayApi shanBayApi = retrofit.create(ShanBayApi.class);
+
+        shanBayApi.getWordInfo(word)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<WordInfo>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mWordView.showError();
+
+                    }
+
+                    @Override
+                    public void onNext(WordInfo info) {
+                        map.put("chinese",info.getData().getCn_definition().getDefn());
+                        mWordView.showWordInfo(map);
+                    }
+                });
+    }
 }

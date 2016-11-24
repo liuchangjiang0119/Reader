@@ -26,5 +26,6 @@
     <string name="unit4">Unit 4</string>
     <string name="unit5">Unit 5</string>
     <string name="unit6">Unit 6</string>
-
+    <string name="net_error">网络连接失败</string>
+    <string name="loading">正在加载...</string>
 </resources>
