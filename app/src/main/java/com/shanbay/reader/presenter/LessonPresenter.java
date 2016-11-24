@@ -155,4 +155,10 @@ public class LessonPresenter implements LessonContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void onDestory() {
+        mLessonView = null;
+        mWordView = null;
+    }
 }

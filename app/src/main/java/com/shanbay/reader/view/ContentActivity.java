@@ -3,6 +3,7 @@ package com.shanbay.reader.view;
 
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import immortalz.me.library.TransitionsHeleper;
+
 
 
 public class ContentActivity extends AppCompatActivity implements View.OnClickListener,LessonContract.WordView{
@@ -125,7 +127,9 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
             public boolean onTouch(View view, MotionEvent event) {
 
                 if (mFloatingActionsMenu.isExpanded()){
+                    content_text.setFocusable(false);
                     mFloatingActionsMenu.collapse();
+                    return true;
                 }
                 return false;
             }
@@ -359,6 +363,12 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void showError() {
         Snackbar.make(mFloatingActionsMenu,R.string.net_error,Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestory();
     }
 
     //    显示每篇文章中的new word and expression

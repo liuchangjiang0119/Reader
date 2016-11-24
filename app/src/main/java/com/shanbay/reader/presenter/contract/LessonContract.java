@@ -16,6 +16,7 @@ public class LessonContract {
         void loadLesson(int unit);
         void loadWord(int level);
         void getWordInfo(String word);
+        void onDestory();
 
     }
 

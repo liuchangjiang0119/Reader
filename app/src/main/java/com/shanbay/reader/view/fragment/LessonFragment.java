@@ -135,4 +135,10 @@ public class LessonFragment extends BaseFragment implements LessonContract.Lesso
 
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestory();
+    }
 }
