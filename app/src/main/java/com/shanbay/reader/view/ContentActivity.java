@@ -159,12 +159,17 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                     content_text.setText(spannableCopy);
 /*重写LinkedMovementMethod的onTouchEvent方法，在未设置clickablespan的文字点击时返回false
  * 即点击为设置sapn的文字时TextView不消耗事件，把事件传递给ViewGroup。
+ *
 * */
-                    content_text.setMovementMethod(CustomClickMovementMethod.getInstance());
-                    content_text.setFocusable(false);
-                    content_text.setClickable(false);
-                    content_text.setLongClickable(false);
+                    content_text.setMovementMethod(LinkMovementMethod.getInstance());
                     content_text.setHighlightColor(ContextCompat.getColor(ContentActivity.this,R.color.colorPrimary));
+//                    不能高亮
+//                    content_text.setMovementMethod(CustomClickMovementMethod.getInstance());
+
+//                    content_text.setFocusable(false);
+//                    content_text.setClickable(false);
+//                    content_text.setLongClickable(false);
+
                     break;
                 default:
                     break;
