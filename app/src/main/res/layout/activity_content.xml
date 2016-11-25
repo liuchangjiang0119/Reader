@@ -48,7 +48,7 @@
         fab:fab_addButtonColorNormal="@color/colorAccent"
         fab:fab_addButtonSize="normal"
         fab:fab_labelsPosition="left"
-        app:layout_behavior=".view.FabBehavior"
+        app:layout_behavior=".utils.FabBehavior"
         android:layout_gravity="end|bottom"
 
         fab:fab_labelStyle="@style/FabMenuStyle"

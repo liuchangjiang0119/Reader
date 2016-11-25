@@ -1,4 +1,4 @@
-package com.shanbay.reader.view;
+package com.shanbay.reader.utils;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
