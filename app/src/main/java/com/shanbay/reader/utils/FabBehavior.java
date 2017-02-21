@@ -11,27 +11,25 @@ import android.view.View;
  */
 
 public class FabBehavior extends CoordinatorLayout.Behavior {
-/**
- * 第三方FloatingActionsMenu和CoordinatorLayout配合不起作用，
- * 仍然会被SnackBar覆盖掉，需要自定义一个Behavior并在xml文件中引用
- * 需要重写layoutDependon方法和onDependentViewChanged
-* */
+	/**
+	 * 第三方FloatingActionsMenu和CoordinatorLayout配合不起作用，
+	 * 仍然会被SnackBar覆盖掉，需要自定义一个Behavior并在xml文件中引用
+	 * 需要重写layoutDependon方法和onDependentViewChanged
+	 */
 
+	public FabBehavior(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
 
+	@Override
+	public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
+		return dependency instanceof Snackbar.SnackbarLayout;
+	}
 
-    public FabBehavior(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
-        return dependency instanceof Snackbar.SnackbarLayout;
-    }
-
-    @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
-        float translationY = Math.min(0, dependency.getTranslationY() - dependency.getHeight());
-        child.setTranslationY(translationY);
-        return true;
-    }
+	@Override
+	public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
+		float translationY = Math.min(0, dependency.getTranslationY() - dependency.getHeight());
+		child.setTranslationY(translationY);
+		return true;
+	}
 }

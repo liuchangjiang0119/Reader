@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.shanbay.reader.R;
 import com.shanbay.reader.view.LessonNumView;
 
@@ -23,77 +22,79 @@ import butterknife.ButterKnife;
 
 public class LessonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> mTitleList = new ArrayList<>();
-    private Context mContext;
-    private LayoutInflater mInflater;
-//    定义一个监听事件
-    private OnItemClickListener mOnItemClickListener;
-    private int unit;
+	private List<String> mTitleList = new ArrayList<>();
+	private Context mContext;
+	private LayoutInflater mInflater;
+	//    定义一个监听事件
+	private OnItemClickListener mOnItemClickListener;
+	private int unit;
 
-    public LessonRecyclerViewAdapter(Context context) {
-        this.mContext = context;
-        mInflater = LayoutInflater.from(context);
-    }
-    public void setTitleList(List<String> list){
-        mTitleList = list;
-        this.notifyDataSetChanged();
-    }
+	public LessonRecyclerViewAdapter(Context context) {
+		this.mContext = context;
+		mInflater = LayoutInflater.from(context);
+	}
 
-    public void setUnit(int unit){
-        this.unit = unit;
-        this.notifyDataSetChanged();
-    }
+	public void setTitleList(List<String> list) {
+		mTitleList = list;
+		this.notifyDataSetChanged();
+	}
 
-    public void setOnItemClickListener(OnItemClickListener itemClickListener){
-        this.mOnItemClickListener = itemClickListener;
-    }
+	public void setUnit(int unit) {
+		this.unit = unit;
+		this.notifyDataSetChanged();
+	}
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_lesson,parent,false);
-        LessonViewHolder viewHolder = new LessonViewHolder(view);
-        return viewHolder;
-    }
+	public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+		this.mOnItemClickListener = itemClickListener;
+	}
 
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        ((LessonViewHolder)holder).item_text.setText(mTitleList.get(position));
-        ((LessonViewHolder)holder).mLessonNumView.setLesson(unit*8+position+1);
+	@Override
+	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View view = mInflater.inflate(R.layout.item_lesson, parent, false);
+		LessonViewHolder viewHolder = new LessonViewHolder(view);
+		return viewHolder;
+	}
+
+	@Override
+	public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+		((LessonViewHolder) holder).item_text.setText(mTitleList.get(position));
+		((LessonViewHolder) holder).mLessonNumView.setLesson(unit * 8 + position + 1);
 //        自定义监听事件的具体实现
-        if (mOnItemClickListener!=null){
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = holder.getLayoutPosition();
-                    mOnItemClickListener.itemClick(holder.itemView,position,((LessonViewHolder) holder).mLessonNumView);
-                }
-            });
-        }
+		if (mOnItemClickListener != null) {
+			holder.itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					int position = holder.getLayoutPosition();
+					mOnItemClickListener.itemClick(holder.itemView, position, ((LessonViewHolder) holder).mLessonNumView);
+				}
+			});
+		}
 
-    }
+	}
 
-    @Override
-    public int getItemCount() {
+	@Override
+	public int getItemCount() {
 
-        return mTitleList.size();
-    }
+		return mTitleList.size();
+	}
 
-    class LessonViewHolder extends RecyclerView.ViewHolder{
+	class LessonViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.item_text)
-        TextView item_text;
-        @BindView(R.id.lessonView)
-        LessonNumView mLessonNumView;
-        public LessonViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this,itemView);
+		@BindView(R.id.item_text)
+		TextView item_text;
+		@BindView(R.id.lessonView)
+		LessonNumView mLessonNumView;
 
-        }
-    }
+		public LessonViewHolder(View itemView) {
+			super(itemView);
+			ButterKnife.bind(this, itemView);
 
-    public interface OnItemClickListener{
-        void itemClick(View view ,int position,View clickView);
+		}
+	}
 
-    }
+	public interface OnItemClickListener {
+		void itemClick(View view, int position, View clickView);
+
+	}
 
 }

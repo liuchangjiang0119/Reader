@@ -15,61 +15,58 @@ import com.shanbay.reader.R;
  * Created by windfall on 16-11-22.
  */
 //自定义view为unit序号
-public class UnitView extends View{
-    private Paint mPaint,mTextPaint ;
-    private int unit;
-    private int color;
-    private int textSize;
-    private int textColor;
-    public UnitView(Context context) {
-        super(context);
-    }
+public class UnitView extends View {
+	private Paint mPaint, mTextPaint;
+	private int unit;
+	private int color;
+	private int textSize;
+	private int textColor;
 
-    public UnitView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.unit_view);
-        color = typedArray.getColor(R.styleable.unit_view_unit_color,ContextCompat.getColor(context,R.color.colorPrimary));
-        textSize = typedArray.getDimensionPixelSize(R.styleable.unit_view_unit_textSize,100);
-        textColor = typedArray.getColor(R.styleable.unit_view_unit_textColor,Color.WHITE);
-        typedArray.recycle();
-        initPaint();
-    }
+	public UnitView(Context context) {
+		super(context);
+	}
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	public UnitView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.unit_view);
+		color = typedArray.getColor(R.styleable.unit_view_unit_color, ContextCompat.getColor(context, R.color.colorPrimary));
+		textSize = typedArray.getDimensionPixelSize(R.styleable.unit_view_unit_textSize, 100);
+		textColor = typedArray.getColor(R.styleable.unit_view_unit_textColor, Color.WHITE);
+		typedArray.recycle();
+		initPaint();
+	}
 
-    }
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-    private void initPaint(){
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setColor(color);
+	}
 
-        mTextPaint = new Paint();
-        mTextPaint.setAntiAlias(true);
-        mTextPaint.setColor(textColor);
+	private void initPaint() {
+		mPaint = new Paint();
+		mPaint.setAntiAlias(true);
+		mPaint.setColor(color);
 
-        mTextPaint.setTextSize(textSize);
-    }
+		mTextPaint = new Paint();
+		mTextPaint.setAntiAlias(true);
+		mTextPaint.setColor(textColor);
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        int x = getWidth();
-        int y = getHeight();
+		mTextPaint.setTextSize(textSize);
+	}
 
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		int x = getWidth();
+		int y = getHeight();
 
+		canvas.drawRect(0, 0, x, y, mPaint);
+		canvas.drawText("Unit " + unit, x / 2 - textSize, y / 2 + textSize / 2, mTextPaint);
 
+	}
 
-        canvas.drawRect(0,0,x,y,mPaint);
-        canvas.drawText("Unit "+unit,x/2-textSize,y/2+textSize/2,mTextPaint);
-
-
-    }
-
-    public void setUnit(int unit){
-        this.unit = unit;
-        this.invalidate();
-    }
+	public void setUnit(int unit) {
+		this.unit = unit;
+		this.invalidate();
+	}
 }
